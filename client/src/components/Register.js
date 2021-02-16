@@ -3,7 +3,7 @@ import './Register.css'
 
 const Register = () => {
     return (
-        <div className='Register'>
+        <div className='register'>
             <div className='register-flex-container'>
                 <div className='register-white-box'>
                     <h1 className='register-heading'>Create your account</h1>
