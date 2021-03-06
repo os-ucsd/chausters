@@ -14,7 +14,8 @@ let Link = new Schema(
         type: String
       },
       OtherLink: {
-          type: String
+          type: [OtherLinks],
+          default: undefined
       }
     },
     { collection: "Links"}
