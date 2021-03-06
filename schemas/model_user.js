@@ -1,19 +1,13 @@
-const { Decimal128 } = require("bson");
-const { link } = require("fs");
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema;
+const UserSchema = new mongoose.Schema(
+	{
+		username: { type: String, required: true, unique: true },
+		password: { type: String, required: true }
+	},
+	{ collection: 'users' }
+)
 
-let user = new Schema(
-  {
-    FirstName: {
-      type: String
-    },
-    LastName: {
-      type: String
-    }
-    },
-  { collection: "Users" }
-);
+const model = mongoose.model('UserSchema', UserSchema)
 
-module.exports = mongoose.model("users", user);
+module.exports = model
