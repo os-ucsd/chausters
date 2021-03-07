@@ -1,10 +1,10 @@
 const express = require("express");
 const axios = require("axios");
+require("dotenv").config();
 
 const app = express();
 
-const TOKEN =
-    "13171~G4mR2rRs5D3lcWb83MIm0mxf2B0sy3NRQUi8wgUlnWKisJtGh7YrMGuR3w6uepHH";
+const TOKEN = process.env.CANVAS_API;
 
 app.get("/getCourses", async (req, res) => {
     axios
@@ -13,14 +13,12 @@ app.get("/getCourses", async (req, res) => {
         )
         .then((response) => {
             res.send(response.data);
-            // console.log(response);
         })
         .catch((err) => console.log(err));
 });
 
 app.get("/:courseId/getAssignments", async (req, res) => {
     const courseId = req.params.courseId;
-    console.log(courseId);
 
     axios
         .get(
@@ -28,21 +26,26 @@ app.get("/:courseId/getAssignments", async (req, res) => {
         )
         .then((response) => {
             res.send(response.data);
-            console.log(response);
         })
         .catch((err) => console.log(err));
 });
 
 app.get("/:userId/getGrades/:courseId", async (req, res) => {
     const userId = req.params.userId;
+    const courseId = parseInt(req.params.courseId);
 
+    let grade;
     axios
         .get(
             `https://canvas.ucsd.edu/api/v1/users/${userId}/enrollments?access_token=${TOKEN}&enrollment_state=active`
         )
         .then((response) => {
-            res.send(response.data);
-            console.log(response);
+            for (data of response.data) {
+                if (data.course_id === courseId) {
+                    grade = data.grades.current_score;
+                    res.send(grade.toString());
+                }
+            }
         })
         .catch((err) => console.log(err));
 });
