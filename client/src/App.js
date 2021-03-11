@@ -1,3 +1,4 @@
+
 import './App.css';
 import Register from './components/Register';
 import Login from './components/Login';
@@ -12,6 +13,14 @@ function App() {
         <Route path='/login' component={Login}/>
         <Route path='/register' component={Register}/>
       </Switch>
+import Navbar from "./components/Navbar/Navbar";
+import Register from "./components/Register";
+
+function App() {
+  return (
+    <div>
+      <Navbar />
+      <Register />
     </div>
   );
 }
