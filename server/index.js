@@ -52,8 +52,6 @@ app.get("/:userId/getGrades/:courseId", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 const dbUrl = process.env.DB_URL;
 
 const mongoose = require("mongoose");
