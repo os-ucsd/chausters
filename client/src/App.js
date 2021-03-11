@@ -1,10 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
-import Register from './components/Register';
+import Navbar from "./components/Navbar/Navbar";
+import Register from "./components/Register";
 
 function App() {
   return (
-    <div className="App">
+    <div>
+      <Navbar />
       <Register />
     </div>
   );
