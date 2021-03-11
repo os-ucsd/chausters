@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const express = require("express");
 const axios = require("axios");
 require("dotenv").config();
@@ -70,6 +68,4 @@ connection.once("open", () => {
     console.log("Database connected");
 });
 
-app.listen(3000, () => {
-    console.log("APP IS LISTENING ON PORT 3000!");
-});
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
