@@ -1,8 +1,11 @@
+require("dotenv").config();
+
 const express = require("express");
 const axios = require("axios");
 require("dotenv").config();
 
 const app = express();
+
 
 const TOKEN = process.env.CANVAS_API;
 
@@ -53,3 +56,20 @@ app.get("/:userId/getGrades/:courseId", async (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+const dbUrl = process.env.DB_URL;
+
+const mongoose = require("mongoose");
+mongoose.connect(dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+
+const connection = mongoose.connection;
+connection.on("error", console.error.bind(console, "connection error:"));
+connection.once("open", () => {
+    console.log("Database connected");
+});
+
+app.listen(3000, () => {
+    console.log("APP IS LISTENING ON PORT 3000!");
+});
