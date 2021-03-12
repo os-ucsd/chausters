@@ -1,16 +1,23 @@
+//IMPORTS
 const express = require("express");
 const axios = require("axios");
+const cors = require("cors");
 require("dotenv").config();
 
+//APP Configuration
 const app = express();
+app.use(cors());
 
 
 const TOKEN = process.env.CANVAS_API;
 
-app.get("/getCourses", async (req, res) => {
+app.get("/getCourses/:token", async (req, res) => {
+
+  let token = req.params.token;
+
     axios
         .get(
-            `https://canvas.ucsd.edu/api/v1/courses?access_token=${TOKEN}&enrollment_state=active`
+            `https://canvas.ucsd.edu/api/v1/courses?access_token=${token}&enrollment_state=active`
         )
         .then((response) => {
             res.send(response.data);
