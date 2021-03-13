@@ -15,17 +15,32 @@ app.get("/getCourses/:token", async (req, res) => {
 
   let token = req.params.token;
 
-    axios
-        .get(
-            `https://canvas.ucsd.edu/api/v1/courses?access_token=${token}&enrollment_state=active`
-        )
-        .then((response) => {
-            res.send(response.data);
-        })
-        .catch((err) => console.log(err));
+  axios
+      .get(
+          `https://canvas.ucsd.edu/api/v1/courses?access_token=${token}&enrollment_state=active`
+      )
+      .then((response) => {
+          res.send(response.data);
+      })
+      .catch((err) => console.log(err));
 });
 
-app.get("/:courseId/getAssignments", async (req, res) => {
+app.get("/getCourse/:token/:id", async(req, res) => {
+  let token = req.params.token;
+  let courseId = req.params.id; 
+
+  axios
+      .get(
+          `https://canvas.ucsd.edu/api/v1/courses/${courseId}?access_token=${token}&enrollment_state=active`
+      )
+      .then((response) => {
+          res.send(response.data);
+      })
+      .catch((err) => console.log(err));
+
+});
+
+app.get("/:token/:courseId/getAssignments", async (req, res) => {
     const courseId = req.params.courseId;
 
     axios
@@ -38,7 +53,7 @@ app.get("/:courseId/getAssignments", async (req, res) => {
         .catch((err) => console.log(err));
 });
 
-app.get("/:userId/getGrades/:courseId", async (req, res) => {
+app.get("/:token/:userId/getGrades/:courseId", async (req, res) => {
     const userId = req.params.userId;
     const courseId = parseInt(req.params.courseId);
 

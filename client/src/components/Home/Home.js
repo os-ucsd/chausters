@@ -16,7 +16,9 @@ class Home extends Component  {
 
   //Component Life Cycle methods
   componentDidMount() {
-    axios.get("http://localhost:5000/getCourses/13171~WCOkLwnr2k3RGXwI6s539VebnweF3YpcIOcQZHvtzgu8POyid82rSA4BFR0n9ab0")
+    let api_key = "";
+
+    axios.get(`http://localhost:5000/getCourses/${api_key}`)
     .then((response) => {
       let courses = response.data;
 
@@ -50,7 +52,7 @@ class Home extends Component  {
                       return (
                         <div className = "col-md-4">
                           <div className = "classItem mx-auto p-5">
-                            <Link><h5 className = "className">{course.name}</h5></Link>
+                            <Link to = {`class/${course.id}`}><h5 className = "className">{course.name}</h5></Link>
                           </div>
                         </div>
                       );
