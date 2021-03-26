@@ -1,26 +1,46 @@
-require("dotenv").config();
-
+//IMPORTS
 const express = require("express");
 const axios = require("axios");
+const cors = require("cors");
 require("dotenv").config();
 
+//APP Configuration
 const app = express();
+app.use(cors());
 
 
 const TOKEN = process.env.CANVAS_API;
 
-app.get("/getCourses", async (req, res) => {
-    axios
-        .get(
-            `https://canvas.ucsd.edu/api/v1/courses?access_token=${TOKEN}&enrollment_state=active`
-        )
-        .then((response) => {
-            res.send(response.data);
-        })
-        .catch((err) => console.log(err));
+app.get("/getCourses/:token", async (req, res) => {
+
+  let token = req.params.token;
+
+  axios
+      .get(
+          `https://canvas.ucsd.edu/api/v1/courses?access_token=${token}&enrollment_state=active`
+      )
+      .then((response) => {
+          res.send(response.data);
+      })
+      .catch((err) => console.log(err));
 });
 
-app.get("/:courseId/getAssignments", async (req, res) => {
+app.get("/getCourse/:token/:id", async(req, res) => {
+  let token = req.params.token;
+  let courseId = req.params.id; 
+
+  axios
+      .get(
+          `https://canvas.ucsd.edu/api/v1/courses/${courseId}?access_token=${token}&enrollment_state=active`
+      )
+      .then((response) => {
+          res.send(response.data);
+      })
+      .catch((err) => console.log(err));
+
+});
+
+app.get("/:token/:courseId/getAssignments", async (req, res) => {
     const courseId = req.params.courseId;
 
     axios
@@ -33,7 +53,7 @@ app.get("/:courseId/getAssignments", async (req, res) => {
         .catch((err) => console.log(err));
 });
 
-app.get("/:userId/getGrades/:courseId", async (req, res) => {
+app.get("/:token/:userId/getGrades/:courseId", async (req, res) => {
     const userId = req.params.userId;
     const courseId = parseInt(req.params.courseId);
 
@@ -54,8 +74,6 @@ app.get("/:userId/getGrades/:courseId", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 const dbUrl = process.env.DB_URL;
 
 const mongoose = require("mongoose");
@@ -70,6 +88,4 @@ connection.once("open", () => {
     console.log("Database connected");
 });
 
-app.listen(3000, () => {
-    console.log("APP IS LISTENING ON PORT 3000!");
-});
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
